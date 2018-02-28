@@ -1,12 +1,20 @@
 var gulp = require('gulp');
-var jshint = require('gulp-jshint');
+var nodemon = require('gulp-nodemon');
 
 var jsFiles = ['*.js', 'src/**/*.js'];
 
-gulp.task('style', function(){
-    gulp.src(jsFiles)
-        .pipe(jshint())
-        .pipe(jshint.reporter('rshint-stylish', {
-            verbose:true
-        }));
+gulp.task('serve', function() {
+    var options = {
+        script: 'app.js',
+        delayTime: 1,
+        env: {
+            'PORT': 3000
+        },
+        watch: jsFiles
+    }
+    
+    return nodemon(options)
+        .on('restart', function(){
+            console.log("restarting...");
+    });
 })
