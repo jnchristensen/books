@@ -15,6 +15,7 @@ var nav = [{
 
     //pass the nav object to the bookRoutes
 var bookRouter = require('./src/routes/bookRoutes')(nav);
+var adminRouter = require('./src/routes/adminRoutes')(nav);
 
 app.use(express.static('public'));
 
@@ -22,6 +23,7 @@ app.use(express.static('public'));
 app.set('views','./src/views');
 
 app.use('/Books', bookRouter);
+app.use('/Admin', adminRouter);
 
 app.set('view engine', 'ejs');
 
