@@ -1,6 +1,6 @@
 var express = require('express');
 var adminRouter = express.Router();
-var mongodb = require('mongodb').MongoClient;
+var MongoClient = require('mongodb').MongoClient;
 
 var books = [{
     "Title": "Company",
@@ -22,24 +22,15 @@ var books = [{
 var router = function (nav) {
     adminRouter.route('/addBooks')
         .get(function (req, res) {
-            var url =
-                'mongodb://localhost:27017/libraryApp';
+            var uri = "mongodb+srv://PakYak:PBSqirvCwlDxgFT0@cluster0-d9jwc.mongodb.net/libraryApp";
 
-            mongodb.connect(url, function (err, client) {
-
-                console.log(client);
-
-                //create a collection called books
-                var db = client.db('books');
-
-                //add books to that collection
-                db.collection('books').insertMany(books, function (err, results) {
+            MongoClient.connect(uri, function (err, client) {
+                const collection = client.db("libraryApp").collection("books");
+                // perform actions on the collection object
+                collection.insertMany(books, function (err, results) {
                     res.send(results);
-
-                    //close the database connection (make sure this is inside the callback)
                     client.close();
-                }
-                );
+                });
             });
         });
 
